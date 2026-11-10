@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import Icon from './Icons'
-import { Title, About, Why, Counters, Team, Testimonials, Cta, Process, Contact, Hero, Services, Blog } from './sections'
+import { Title, About, Why, Counters, Team, Testimonials, Cta, Process, Contact } from './sections'
+import Home from './home'
 import { banners, countries, pages, gallery, videos } from './content'
 import { contact } from './data'
 
@@ -132,7 +133,7 @@ export function InfoPage({ slug }) {
 }
 
 export function HomePage() {
-  return (<><Hero /><About /><Services /><Why /><Counters /><Team /><Testimonials /><Cta /><Process /><Contact /><Blog /></>)
+  return <Home />
 }
 
 export function AboutPage() {

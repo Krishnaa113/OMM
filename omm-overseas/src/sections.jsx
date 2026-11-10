@@ -44,6 +44,12 @@ export function Header() {
   const isActive = (n) => n.to === pathname || n.children?.some((c) => c.to === pathname)
   return (
     <header className={`header ${y > 200 ? 'fixed' : ''}`}>
+      <div className="topbar">
+        <div className="wrap topbar-in">
+          <a href={`mailto:${contact.email}`}><Icon name="mail" size={16} />{contact.email}</a>
+          <a href={`tel:${contact.phone.replace(/\s/g, '')}`}><Icon name="phone" size={16} />{contact.phone}</a>
+        </div>
+      </div>
       <div className="wrap header-in">
         <Link to="/" className="logo"><img src="/logo.jpeg" alt="OMM Overseas" /></Link>
         <nav className={open ? 'open' : ''}>
@@ -214,7 +220,7 @@ export function Why() {
 }
 
 /* ---------- Counters ---------- */
-function Count({ value, suffix }) {
+export function Count({ value, suffix }) {
   const [ref, seen] = useInView()
   const [n, setN] = useState(0)
   useEffect(() => {

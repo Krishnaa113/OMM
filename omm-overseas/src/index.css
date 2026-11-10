@@ -60,6 +60,15 @@ nav a:hover, nav a.active { color: var(--accent); }
 .icon-btn { background: none; border: 0; color: var(--accent); display: grid; place-items: center; }
 .burger { display: none; width: 48px; height: 48px; background: var(--accent); color: #fff; font-size: 22px; }
 
+/* top contact bar (hidden once header turns sticky) */
+.topbar { background: var(--dark); font-size: 15px; }
+.topbar-in { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 8px 32px; padding: 8px 60px; max-width: none; }
+.topbar a { display: inline-flex; align-items: center; gap: 8px; color: #fff; }
+.topbar a:hover { color: var(--accent); }
+.topbar svg { color: var(--accent); }
+.header.fixed .topbar { display: none; }
+@media (max-width: 640px) { .topbar-in { justify-content: center; padding: 6px 16px; font-size: 14px; } }
+
 /* ---------- hero ---------- */
 .hero { position: relative; height: 900px; overflow: hidden; background: #111; }
 .hero-slide { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity 1.2s, visibility 1.2s; display: flex; align-items: center; }
