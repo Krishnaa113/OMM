@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import Icon from './Icons'
-import { img, heroSlides, services, whyItems, counters, team, testimonials, steps, posts, instagram, nav, contact } from './data'
+import { sendEnquiry } from './store'
+import { img, services, whyItems, counters, team, testimonials, steps, instagram, nav, contact, text } from './data'
 
 function useScrollY() {
   const [y, setY] = useState(0)
@@ -79,39 +80,6 @@ export function Header() {
   )
 }
 
-/* ---------- Hero ---------- */
-export function Hero() {
-  const [i, setI] = useState(0)
-  useEffect(() => {
-    const t = setInterval(() => setI((x) => (x + 1) % heroSlides.length), 7000)
-    return () => clearInterval(t)
-  }, [])
-  return (
-    <section className="hero" id="home">
-      {heroSlides.map((s, k) => (
-        <div key={k} className={`hero-slide ${k === i ? 'on' : ''}`}>
-          <div className="hero-bg" style={{ backgroundImage: `url(${img.hero[k]})` }} />
-          <div className="wrap">
-            <div className="hero-text">
-              <span className="hero-tag">{s.tag}</span>
-              <h1>{s.title}</h1>
-              <div className="hero-btns">
-                <a href="#services" className="btn">Explore More <Icon name="arrow" size={16} /></a>
-                <Link to="/contact" className="btn btn-white">Contact Us <Icon name="arrow" size={16} /></Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
-      <div className="hex" />
-      <div className="stripes"><i /><i /><b /><b /></div>
-      <div className="hero-dots">
-        {heroSlides.map((_, k) => <button key={k} className={k === i ? 'on' : ''} onClick={() => setI(k)} aria-label={`Slide ${k + 1}`} />)}
-      </div>
-    </section>
-  )
-}
-
 /* ---------- About ---------- */
 function Ring({ value, label }) {
   const [ref, seen] = useInView()
@@ -125,7 +93,7 @@ function Ring({ value, label }) {
         </svg>
         <span>{value}%</span>
       </div>
-      <h4>{label[0]}<br />{label[1]}</h4>
+      <h4 className="pre">{label}</h4>
     </div>
   )
 }
@@ -142,39 +110,17 @@ export function About() {
           <img className="small" src={img.about2} alt="Visa consultation" />
         </div>
         <div className="about-text">
-          <Title sub="About Company">Welcome To Experience Visa Consulting Firm</Title>
-          <p className="p">OMM Overseas is a registered visa and immigration consultancy helping students, professionals and families study, work and settle abroad with honest advice and complete support.</p>
+          <Title sub={text.about.sub}>{text.about.title}</Title>
+          <p className="p">{text.about.text}</p>
           <div className="rings">
-            <Ring value={95} label={['Visa Success', 'Ratio']} />
-            <Ring value={98} label={['Happy Client', 'Satisfaction']} />
+            {text.about.rings.map((r) => <Ring key={r.label} value={r.value} label={r.label} />)}
           </div>
           <ul className="ticks">
-            {['Immigration & Visa Consulting', 'Direct Online Interview', '99% Visa Approval Rate'].map((t) => (
+            {text.about.ticks.map((t) => (
               <li key={t}><Icon name="check" size={18} />{t}</li>
             ))}
           </ul>
-          <a href="#services" className="btn">Explore More <Icon name="arrow" size={16} /></a>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ---------- Services ---------- */
-export function Services() {
-  return (
-    <section className="sec" id="services">
-      <div className="wrap">
-        <Title sub="Service We Provide" center>Explore Our Visa Citizenship<br />& Immigration Services</Title>
-        <div className="grid4">
-          {services.map((s) => (
-            <div className="svc" key={s.title}>
-              <h3>{s.title}</h3>
-              <p>{s.text}</p>
-              <div className="svc-img"><img src={s.img} alt={s.title} /></div>
-              <Link to="/contact" className="svc-link">Read More <Icon name="arrow" size={14} /></Link>
-            </div>
-          ))}
+          <Link to="/contact" className="btn">{text.about.button} <Icon name="arrow" size={16} /></Link>
         </div>
       </div>
     </section>
@@ -187,8 +133,8 @@ export function Why() {
     <section className="sec why">
       <div className="wrap why-grid">
         <div>
-          <Title sub="Why Choose Us">Some Reasons People Like Our Consultancy</Title>
-          <p className="p">We combine years of experience with a personal approach, so every client gets the right visa strategy and a smooth journey abroad.</p>
+          <Title sub={text.why.sub}>{text.why.title}</Title>
+          <p className="p">{text.why.text}</p>
           <div className="why-list">
             {whyItems.map((w) => (
               <div className="why-item" key={w.title}>
@@ -202,7 +148,7 @@ export function Why() {
           <div className="why-main">
             <img src={img.why1} alt="Travellers" />
             <div className="trusted">
-              <h3>8500+ Trusted Customers</h3>
+              <h3>{text.why.trusted}</h3>
               <div className="avatars">
                 {testimonials.map((t) => <img key={t.name} src={t.img} alt="" />)}
                 <span>+</span>
@@ -246,7 +192,7 @@ export function Counters() {
           <div className="count" key={c.label.join()}>
             <span className="count-ic"><Icon name={c.icon} size={52} /></span>
             <Count value={c.value} suffix={c.suffix} />
-            <p>{c.label[0]}<br />{c.label[1]}</p>
+            <p>{c.label.join(' ')}</p>
           </div>
         ))}
       </div>
@@ -259,7 +205,7 @@ export function Team() {
   return (
     <section className="sec" id="team">
       <div className="wrap">
-        <Title sub="Professional People" center>Meet Our Expert Visa<br />Consultants</Title>
+        <Title sub={text.team.sub} center>{text.team.title}</Title>
         <div className="grid4 team">
           {team.map((m) => (
             <div className="member" key={m.name}>
@@ -291,7 +237,7 @@ export function Testimonials() {
   return (
     <section className="sec testi-sec">
       <div className="wrap">
-        <Title sub="Our Testimonials" center>Let’s Explore Why People Say<br />About Our Services</Title>
+        <Title sub={text.testimonials.sub} center>{text.testimonials.title}</Title>
         <div className="grid3">
           {shown.map((t, k) => (
             <div className="testi" key={`${page}-${k}`}>
@@ -321,10 +267,10 @@ export function Cta() {
         <div className="cta-box">
           <Icon name="calling" size={64} className="cta-ic" />
           <div className="cta-text">
-            <h2>Let’s Discuss & Start Visa Consultations</h2>
-            <p>Book a free consultation with our experts today and take the first step abroad.</p>
+            <h2>{text.cta.title}</h2>
+            <p>{text.cta.text}</p>
           </div>
-          <Link to="/contact" className="btn-light">Lets Get Started <Icon name="arrow" size={16} /></Link>
+          <Link to="/contact" className="btn-light">{text.cta.button} <Icon name="arrow" size={16} /></Link>
         </div>
       </div>
     </section>
@@ -336,7 +282,7 @@ export function Process() {
   return (
     <section className="sec process" id="process">
       <div className="wrap">
-        <Title sub="Working Process" center>4 Step Follow You Can Get<br />Your Visa Easily</Title>
+        <Title sub={text.process.sub} center>{text.process.title}</Title>
         <div className="steps">
           <svg className="dotline" viewBox="0 0 1000 120" preserveAspectRatio="none">
             <polyline points="125,20 375,100 625,20 875,100" />
@@ -360,50 +306,20 @@ export function Contact() {
     <section className="contact" id="contact">
       <div className="c-left" style={{ backgroundImage: `url(${img.contact})` }}>
         <div className="c-inner">
-          <Title sub="Contact Us" light>Get A Call Back</Title>
-          <form onSubmit={(e) => { e.preventDefault(); setSent(true) }}>
-            <div className="f2"><input placeholder="First Name" required /><input type="email" placeholder="Email Address" required /></div>
+          <Title sub={text.contactForm.sub} light>{text.contactForm.title}</Title>
+          <form onSubmit={(e) => { e.preventDefault(); sendEnquiry(e.target).then(() => setSent(true), (err) => alert(err.message)) }}>
+            <div className="f2"><input name="name" placeholder="First Name" required /><input name="email" type="email" placeholder="Email Address" required /></div>
             <div className="f2">
-              <input placeholder="Phone Number" />
-              <select defaultValue=""><option value="" disabled>Choose Services</option>{services.map((s) => <option key={s.title}>{s.title}</option>)}</select>
+              <input name="phone" placeholder="Phone Number" />
+              <select name="service" defaultValue=""><option value="" disabled>Choose Services</option>{services.map((s) => <option key={s.title}>{s.title}</option>)}</select>
             </div>
-            <textarea rows="6" placeholder="Write Your Message" />
-            <button className="btn-dark" type="submit">{sent ? 'Message Sent ✓' : <>Send Us Messages <Icon name="arrow" size={16} /></>}</button>
+            <textarea name="message" rows="6" placeholder="Write Your Message" />
+            <button className="btn-dark" type="submit">{sent ? text.contactForm.sent : <>{text.contactForm.button} <Icon name="arrow" size={16} /></>}</button>
           </form>
         </div>
       </div>
       <div className="c-map">
-        <iframe title="Office location" src="https://www.google.com/maps?q=Connaught%20Place%20New%20Delhi&z=15&output=embed" loading="lazy" />
-      </div>
-    </section>
-  )
-}
-
-/* ---------- Blog ---------- */
-export function Blog() {
-  return (
-    <section className="sec" id="blog">
-      <div className="wrap">
-        <Title sub="News & Blog" center>Read Our Latest<br />News & Blog</Title>
-        <div className="grid3">
-          {posts.map((p) => (
-            <article className="post" key={p.title}>
-              <div className="post-img">
-                <img src={p.img} alt="" />
-                <div className="post-date"><b>{p.day}</b><span>{p.month}</span></div>
-              </div>
-              <div className="post-body">
-                <div className="meta">
-                  <span><Icon name="user" size={18} className="red" />admin</span>
-                  <span><Icon name="chat" size={18} className="red" />Comments ({p.comments})</span>
-                  <span className="dark"><Icon name="tag" size={18} className="red" />{p.tag}</span>
-                </div>
-                <h3><a href="#">{p.title}</a></h3>
-                <a href="#" className="svc-link">Read More <Icon name="arrow" size={14} /></a>
-              </div>
-            </article>
-          ))}
-        </div>
+        <iframe title="Office location" src={`https://www.google.com/maps?q=${encodeURIComponent(contact.mapLocation || contact.address.join(' '))}&z=15&output=embed`} loading="lazy" />
       </div>
     </section>
   )
@@ -416,18 +332,18 @@ export function Footer() {
       <div className="wrap foot-grid">
         <div>
           <Link to="/" className="foot-logo"><img src="/logo.jpeg" alt="OMM Overseas" /></Link>
-          <p>Your trusted partner to study, work and settle abroad. Honest advice and complete visa support from start to finish.</p>
+          <p>{text.footer.about}</p>
           <div className="socials">
-            {['fb', 'tw', 'ig', 'in'].map((s) => <a key={s} href="#"><Icon name={s} size={18} /></a>)}
+            {Object.entries(contact.social || {}).map(([s, href]) => <a key={s} href={href} target="_blank" rel="noreferrer" aria-label={s}><Icon name={s} size={18} /></a>)}
           </div>
         </div>
         <div>
-          <h4>Services</h4>
-          <ul>{[['Study In Canada', '/study-in-canada'], ['Study In UK', '/study-in-uk'], ['Study In Australia', '/study-in-australia'], ['Work Visa', '/work-visa'], ['Spouse Visa', '/spouse-visa']].map(([s, to]) => <li key={s}><Link to={to}><Icon name="dbl" size={16} />{s}</Link></li>)}</ul>
+          <h4>{text.footer.servicesTitle}</h4>
+          <ul>{text.footer.services.map((l) => <li key={l.to}><Link to={l.to}><Icon name="dbl" size={16} />{l.label}</Link></li>)}</ul>
         </div>
         <div>
-          <h4>Explore</h4>
-          <ul>{[['About Us', '/about'], ['IELTS Coaching', '/ielts'], ['PTE Coaching', '/pte'], ['Gallery', '/gallery'], ['Contact Us', '/contact']].map(([s, to]) => <li key={s}><Link to={to}><Icon name="dbl" size={16} />{s}</Link></li>)}</ul>
+          <h4>{text.footer.exploreTitle}</h4>
+          <ul>{text.footer.explore.map((l) => <li key={l.to}><Link to={l.to}><Icon name="dbl" size={16} />{l.label}</Link></li>)}</ul>
         </div>
         <div>
           <h4>Address:</h4>
@@ -440,7 +356,7 @@ export function Footer() {
           <div className="insta">{instagram.map((src) => <a key={src} href="#"><img src={src} alt="" /></a>)}</div>
         </div>
       </div>
-      <div className="copy"><div className="wrap">Copyright © {new Date().getFullYear()} OMM Overseas All Rights Reserved.</div></div>
+      <div className="copy"><div className="wrap">Copyright © {new Date().getFullYear()} {text.footer.copyright}</div></div>
     </footer>
   )
 }

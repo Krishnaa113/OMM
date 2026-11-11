@@ -1,16 +1,17 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from './Icons'
+import { sendEnquiry } from './store'
 import { Count } from './sections'
-import { img, heroSlides, services, whyItems, counters, testimonials, steps, contact } from './data'
+import { img, services, whyItems, counters, testimonials, steps, contact, text, states, timelines } from './data'
 import { countries } from './content'
 import './home.css'
 
 const svcLinks = { 'Student Visa': '/study-abroad', 'Work Visa': '/work-visa' }
 
-function Head({ sub, title, text, center }) {
+function Head({ sub, title, text, center, wide }) {
   return (
-    <div className={`hm-head ${center ? 'center' : ''}`}>
+    <div className={`hm-head ${center ? 'center' : ''} ${wide ? 'wide' : ''}`}>
       <span className="hm-sub">{sub}</span>
       <h2>{title}</h2>
       {text && <p>{text}</p>}
@@ -19,26 +20,25 @@ function Head({ sub, title, text, center }) {
 }
 
 function Hero() {
+  const t = text.home
   return (
     <section className="hm-hero">
       <div className="wrap hm-hero-in">
         <div className="hm-hero-text">
-          <span className="hm-pill"><i />{heroSlides[1].tag}</span>
-          <h1>Your Journey Abroad <em>Starts Here</em></h1>
-          <p>Expert guidance for student, work, tourist and PR visas. Honest advice, complete documentation and a 98% success rate.</p>
+          <span className="hm-pill"><i />{t.heroTag}</span>
+          <h1>{t.heroTitle} <em>{t.heroHighlight}</em></h1>
+          <p>{t.heroText}</p>
           <div className="hm-btns">
-            <Link to="/contact" className="btn">Free Consultation <Icon name="arrow" size={16} /></Link>
-            <a href="#destinations" className="hm-btn-ghost">Explore Countries</a>
+            <Link to="/contact" className="btn">{t.heroButton} <Icon name="arrow" size={16} /></Link>
+            <a href="#destinations" className="hm-btn-ghost">{t.heroButton2}</a>
           </div>
           <div className="hm-trust">
-            <div className="avatars">{testimonials.map((t) => <img key={t.name} src={t.img} alt="" />)}</div>
-            <div><b>8500+ happy clients</b><span>★★★★★ rated by students & families</span></div>
+            <div className="avatars">{testimonials.map((r) => <img key={r.name} src={r.img} alt="" />)}</div>
+            <div><b>{t.trustTitle}</b><span>{t.trustText}</span></div>
           </div>
         </div>
         <div className="hm-hero-media">
-          <img className="hm-hero-img" src={img.hero[2]} alt="Students celebrating graduation" />
-          <div className="hm-float f1"><Icon name="visa" size={28} /><div><b>98%</b><span>Visa success</span></div></div>
-          <div className="hm-float f2"><Icon name="globe" size={28} /><div><b>25+</b><span>Countries</span></div></div>
+          <img className="hm-hero-img" src={img.homeHero} alt="Students celebrating graduation" />
         </div>
       </div>
     </section>
@@ -64,7 +64,7 @@ function Destinations() {
   return (
     <section className="hm-sec" id="destinations">
       <div className="wrap">
-        <Head center sub="Study Destinations" title="Where Do You Want To Study?" text="Pick a country to see universities, intakes, costs and visa requirements." />
+        <Head center wide sub={text.home.destSub} title={text.home.destTitle} text={text.home.destText} />
         <div className="hm-dest">
           {Object.entries(countries).map(([slug, c]) => (
             <Link key={slug} to={`/${slug}`} className="hm-country">
@@ -87,8 +87,12 @@ function Services() {
     <section className="hm-sec hm-tint">
       <div className="wrap">
         <div className="hm-row-head">
-          <Head sub="What We Do" title="Visa Services Built Around You" />
-          <Link to="/contact" className="btn">Talk To An Expert <Icon name="arrow" size={16} /></Link>
+          <Head wide sub={text.home.servicesSub} title={text.home.servicesTitle} />
+          <div className="hm-actions">
+            <Link to="/contact" className="btn">{text.home.servicesButton} <Icon name="arrow" size={16} /></Link>
+            <a href={`https://wa.me/${(contact.whatsapp || contact.phone).replace(/\D/g, '')}`} target="_blank" rel="noreferrer" className="btn hm-wa"><Icon name="chat" size={18} /> {text.home.whatsappButton}</a>
+            <a href="#enquiry" className="btn hm-enq"><Icon name="mail" size={18} /> {text.home.enquiryButton}</a>
+          </div>
         </div>
         <div className="hm-svc-grid">
           {services.map((s) => (
@@ -97,7 +101,7 @@ function Services() {
               <div className="hm-svc-body">
                 <h3>{s.title}</h3>
                 <p>{s.text}</p>
-                <span>Learn more <Icon name="arrow" size={14} /></span>
+                <span>{text.home.servicesMore} <Icon name="arrow" size={14} /></span>
               </div>
             </Link>
           ))}
@@ -113,10 +117,10 @@ function Why() {
       <div className="wrap hm-why">
         <div className="hm-why-media">
           <img src={img.about1} alt="Happy travellers with passports" />
-          <div className="hm-badge"><b>12+</b><span>Years of<br />experience</span></div>
+          <div className="hm-badge"><b>{text.home.whyBadgeValue}</b><span className="pre">{text.home.whyBadgeLabel}</span></div>
         </div>
         <div>
-          <Head sub="Why OMM Overseas" title="A Consultancy That Actually Cares" text="OMM Overseas is a registered visa and immigration consultancy. We give honest advice, prepare every file carefully and stay with you until you land." />
+          <Head sub={text.home.whySub} title={text.home.whyTitle} text={text.home.whyText} />
           <div className="hm-why-list">
             {whyItems.map((w) => (
               <div key={w.title} className="hm-why-item">
@@ -125,7 +129,7 @@ function Why() {
               </div>
             ))}
           </div>
-          <Link to="/about" className="btn">More About Us <Icon name="arrow" size={16} /></Link>
+          <Link to="/about" className="btn">{text.home.whyButton} <Icon name="arrow" size={16} /></Link>
         </div>
       </div>
     </section>
@@ -136,7 +140,7 @@ function Process() {
   return (
     <section className="hm-sec hm-dark">
       <div className="wrap">
-        <Head center sub="How It Works" title="Your Visa In 4 Simple Steps" />
+        <Head center sub={text.home.processSub} title={text.home.processTitle} />
         <ol className="hm-steps">
           {steps.map((s, k) => (
             <li key={s.title}>
@@ -156,7 +160,7 @@ function Reviews() {
   return (
     <section className="hm-sec">
       <div className="wrap">
-        <Head center sub="Success Stories" title="What Our Clients Say" />
+        <Head center sub={text.home.reviewsSub} title={text.home.reviewsTitle} />
         <div className="hm-reviews">
           {testimonials.slice(0, 3).map((t) => (
             <figure key={t.name} className="hm-review">
@@ -175,28 +179,36 @@ function ContactBlock() {
   const [sent, setSent] = useState(false)
   const tel = contact.phone.replace(/\s/g, '')
   return (
-    <section className="hm-sec hm-tint">
+    <section className="hm-sec hm-tint" id="enquiry">
       <div className="wrap hm-contact">
         <div className="hm-contact-info">
-          <span className="hm-sub">Get In Touch</span>
-          <h2>Book Your Free Consultation</h2>
-          <p>Tell us your plans and an expert will call you back within one working day.</p>
+          <span className="hm-sub">{text.home.contactSub}</span>
+          <h2>{text.home.contactTitle}</h2>
+          <p>{text.home.contactText}</p>
           <a href={`tel:${tel}`}><Icon name="phone" size={22} /><div><small>Call us</small>{contact.phone}</div></a>
           <a href={`mailto:${contact.email}`}><Icon name="mail" size={22} /><div><small>Email us</small>{contact.email}</div></a>
           <div className="hm-ci"><Icon name="globe" size={22} /><div><small>Visit us</small>{contact.address.join(' ')}</div></div>
           <div className="hm-ci"><Icon name="check" size={22} /><div><small>Hours</small>{contact.hours.join(', ')}</div></div>
         </div>
-        <form className="hm-form" onSubmit={(e) => { e.preventDefault(); setSent(true) }}>
-          <label>Full name<input required placeholder="Your name" /></label>
+        <form className="hm-form" onSubmit={(e) => { e.preventDefault(); sendEnquiry(e.target).then(() => setSent(true), (err) => alert(err.message)) }}>
+          <label>Full name<input name="name" required placeholder="Your name" /></label>
           <div className="hm-f2">
-            <label>Email<input type="email" required placeholder="you@example.com" /></label>
-            <label>Phone<input type="tel" placeholder="+91" /></label>
+            <label>Email<input name="email" type="email" required placeholder="you@example.com" /></label>
+            <label>Phone<input name="phone" type="tel" placeholder="+91" /></label>
           </div>
-          <label>Service
-            <select defaultValue=""><option value="" disabled>Choose a service</option>{services.map((s) => <option key={s.title}>{s.title}</option>)}</select>
+          <div className="hm-f2">
+            <label>State
+              <select name="state" required defaultValue=""><option value="" disabled>Choose your state</option>{states.map((s) => <option key={s}>{s}</option>)}</select>
+            </label>
+            <label>Service
+              <select name="service" defaultValue=""><option value="" disabled>Choose a service</option>{services.map((s) => <option key={s.title}>{s.title}</option>)}</select>
+            </label>
+          </div>
+          <label>{text.home.timelineLabel}
+            <select name="timeline" required defaultValue=""><option value="" disabled>Choose an option</option>{timelines.map((s) => <option key={s}>{s}</option>)}</select>
           </label>
-          <label>Message<textarea rows="4" placeholder="Which country and course are you interested in?" /></label>
-          <button className="btn" type="submit" disabled={sent}>{sent ? 'Thanks! We will call you soon ✓' : <>Request Call Back <Icon name="arrow" size={16} /></>}</button>
+          <label>Message<textarea name="message" rows="4" placeholder="Which country and course are you interested in?" /></label>
+          <button className="btn" type="submit" disabled={sent}>{sent ? text.home.formThanks : <>{text.home.formButton} <Icon name="arrow" size={16} /></>}</button>
         </form>
       </div>
     </section>

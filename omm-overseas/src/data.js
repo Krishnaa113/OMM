@@ -1,7 +1,7 @@
 const u = (id, w = 900) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=70`
 
 export const img = {
-  hero: [u('photo-1521791136064-7986c2920216', 1920), u('photo-1436491865332-7a61a109cc05', 1920), u('photo-1523240795612-9a054b0db644', 1920)],
+  homeHero: u('photo-1523240795612-9a054b0db644', 1200),
   about1: u('photo-1527631746610-bca00a040d60', 800),
   about2: u('photo-1556761175-5973dc0f32e7', 500),
   why1: u('photo-1488646953014-85cb44e25828', 800),
@@ -9,12 +9,6 @@ export const img = {
   why3: u('photo-1507679799987-c73779587ccf', 600),
   contact: u('photo-1573497019940-1c28c88b4f3e', 1400),
 }
-
-export const heroSlides = [
-  { tag: 'Your Most Trusted Partners', title: 'Immigration & Visa Consulting Here...' },
-  { tag: 'Study | Work | Settle Abroad', title: 'Fly Abroad With Expert Visa Guidance' },
-  { tag: 'Study Abroad Experts', title: 'Admission In Top Global Universities' },
-]
 
 export const services = [
   { title: 'Business Visa', text: 'Investor, entrepreneur and business visit visas to grow your company globally.', img: u('photo-1454165804606-c3d57bc86b40', 600) },
@@ -57,12 +51,6 @@ export const steps = [
   { icon: 'visa', title: 'Receive Your Visa Now', text: 'Your visa is approved and you are ready to fly abroad.' },
 ]
 
-export const posts = [
-  { img: u('photo-1522071820081-009f0129c71c', 700), day: '05', month: 'Nov', tag: 'Student Visa', comments: 0, title: 'Canada Study Permit: Complete Checklist For 2027 Intake' },
-  { img: u('photo-1556157382-97eda2d62296', 700), day: '28', month: 'Oct', tag: 'Work Visa', comments: 2, title: 'Germany Opportunity Card: Who Can Apply & How' },
-  { img: u('photo-1517048676732-d65bc937f952', 700), day: '19', month: 'Oct', tag: 'PR', comments: 1, title: 'Australia Skilled Migration: Occupations In Demand' },
-]
-
 export const instagram = [
   'photo-1600880292089-90a7e086ee0c', 'photo-1542744173-8e7e53415bb0', 'photo-1517245386807-bb43f82c33c4',
   'photo-1573497019940-1c28c88b4f3e', 'photo-1529156069898-49953e39b3ac', 'photo-1530521954074-e64f6810b32d',
@@ -88,11 +76,6 @@ export const nav = [
     { label: 'PTE', to: '/pte' },
     { label: 'Benefits of PTE', to: '/pte-benefits' },
   ] },
-  { label: 'Other Services', children: [
-    { label: 'Spoken English', to: '/spoken-english' },
-    { label: 'Spouse Visa', to: '/spouse-visa' },
-    { label: 'MBBS Abroad', to: '/mbbs-abroad' },
-  ] },
   { label: 'Work Visa', to: '/work-visa' },
   { label: 'Testimonials', children: [
     { label: 'Gallery', to: '/gallery' },
@@ -101,9 +84,74 @@ export const nav = [
   { label: 'Contact Us', to: '/contact' },
 ]
 
+// "State" dropdown in the home page consultation form
+export const states = [
+  'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh',
+  'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha',
+  'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal',
+  'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Jammu and Kashmir',
+  'Ladakh', 'Lakshadweep', 'Puducherry', 'Outside India',
+]
+
+// "How soon" dropdown in the home page consultation form
+export const timelines = ['Within 7 days', 'Within 15 days', 'Within 30 days', 'Within 3 months', 'Within 6 months', 'Just exploring']
+
 export const contact = {
   phone: '+91 98765 43210',
   email: 'info@ommoverseas.com',
   address: ['123 Business Avenue,', 'New Delhi 110001, India'],
   hours: ['9.30am – 6.30pm', 'Monday to Saturday'],
+  whatsapp: '', // leave empty to use the phone number
+  mapLocation: 'Connaught Place New Delhi',
+  social: { fb: '#', tw: '#', ig: '#', in: '#' },
+}
+
+// Headings, paragraphs and button labels shown around the site. Use a new line for a line break.
+export const text = {
+  home: {
+    heroTag: 'Study | Work | Settle Abroad', heroTitle: 'Your Journey Abroad', heroHighlight: 'Starts Here',
+    heroText: 'Expert guidance for student, work, tourist and PR visas. Honest advice, complete documentation and a 98% success rate.',
+    heroButton: 'Free Consultation', heroButton2: 'Explore Countries',
+    trustTitle: '8500+ happy clients', trustText: '★★★★★ rated by students & families',
+    destSub: 'Study Destinations', destTitle: 'Where Do You Want To Study?', destText: 'Pick a country to see universities, intakes, costs and visa requirements.',
+    servicesSub: 'What We Do', servicesTitle: 'Visa Services Built Around You', servicesButton: 'Talk To An Expert', whatsappButton: 'WhatsApp', enquiryButton: 'Inquiry', servicesMore: 'Learn more',
+    whySub: 'Why OMM Overseas', whyTitle: 'A Consultancy That Actually Cares',
+    whyText: 'OMM Overseas is a registered visa and immigration consultancy. We give honest advice, prepare every file carefully and stay with you until you land.',
+    whyBadgeValue: '12+', whyBadgeLabel: 'Years of\nexperience', whyButton: 'More About Us',
+    processSub: 'How It Works', processTitle: 'Your Visa In 4 Simple Steps',
+    reviewsSub: 'Success Stories', reviewsTitle: 'What Our Clients Say',
+    contactSub: 'Get In Touch', contactTitle: 'Book Your Free Consultation', contactText: 'Tell us your plans and an expert will call you back within one working day.',
+    timelineLabel: 'In how many days do you want to start?', formButton: 'Request Call Back', formThanks: 'Thanks! We will call you soon ✓',
+  },
+  about: {
+    sub: 'About Company', title: 'Welcome To Experience Visa Consulting Firm',
+    text: 'OMM Overseas is a registered visa and immigration consultancy helping students, professionals and families study, work and settle abroad with honest advice and complete support.',
+    rings: [{ value: 95, label: 'Visa Success\nRatio' }, { value: 98, label: 'Happy Client\nSatisfaction' }],
+    ticks: ['Immigration & Visa Consulting', 'Direct Online Interview', '99% Visa Approval Rate'],
+    button: 'Explore More',
+  },
+  why: {
+    sub: 'Why Choose Us', title: 'Some Reasons People Like Our Consultancy',
+    text: 'We combine years of experience with a personal approach, so every client gets the right visa strategy and a smooth journey abroad.',
+    trusted: '8500+ Trusted Customers',
+  },
+  team: { sub: 'Professional People', title: 'Meet Our Expert Visa\nConsultants' },
+  testimonials: { sub: 'Our Testimonials', title: 'Let’s Explore Why People Say\nAbout Our Services' },
+  process: { sub: 'Working Process', title: '4 Step Follow You Can Get\nYour Visa Easily' },
+  cta: { title: 'Let’s Discuss & Start Visa Consultations', text: 'Book a free consultation with our experts today and take the first step abroad.', button: 'Lets Get Started' },
+  contactForm: { sub: 'Contact Us', title: 'Get A Call Back', button: 'Send Us Messages', sent: 'Message Sent ✓', cardCall: 'Call Us', cardEmail: 'Email Us', cardVisit: 'Visit Us' },
+  sidebar: { title: 'Our Services', helpTitle: 'Need Help? Talk To Our Expert', helpButton: 'Book Free Consultation', enquiryButton: 'Inquiry' },
+  countryPage: { whyTitle: 'Why Study In', universitiesTitle: 'Top Universities & Colleges', intakesTitle: 'Intakes', docsTitle: 'Documents Required', note: 'Fees and visa rules change often. Our counsellors will confirm the latest requirements for your profile.' },
+  pageTitles: { about: 'About Us', gallery: 'Gallery', videos: 'Video Testimonials', contact: 'Contact Us', testimonialsCrumb: 'Testimonials', studyCrumb: 'Study Visa', notFound: 'Page Not Found' },
+  gallery: { sub: 'Our Gallery', title: 'Moments Of Happy Students\n& Successful Visas' },
+  videos: { sub: 'Video Testimonials', title: 'Hear From Our\nSuccessful Clients' },
+  notFound: { title: '404 – This page does not exist', button: 'Back To Home' },
+  footer: {
+    about: 'Your trusted partner to study, work and settle abroad. Honest advice and complete visa support from start to finish.',
+    servicesTitle: 'Services',
+    services: [{ label: 'Study In Canada', to: '/study-in-canada' }, { label: 'Study In UK', to: '/study-in-uk' }, { label: 'Study In Australia', to: '/study-in-australia' }, { label: 'Work Visa', to: '/work-visa' }, { label: 'Spouse Visa', to: '/spouse-visa' }],
+    exploreTitle: 'Explore',
+    explore: [{ label: 'About Us', to: '/about' }, { label: 'IELTS Coaching', to: '/ielts' }, { label: 'PTE Coaching', to: '/pte' }, { label: 'Gallery', to: '/gallery' }, { label: 'Contact Us', to: '/contact' }],
+    copyright: 'OMM Overseas All Rights Reserved.',
+  },
 }

@@ -3,14 +3,20 @@ import { Routes, Route, useLocation } from 'react-router-dom'
 import { Header, Footer, ToTop } from './sections'
 import { HomePage, AboutPage, CountryPage, InfoPage, GalleryPage, VideosPage, ContactPage, NotFound } from './pages'
 import { countries, pages } from './content'
+import Admin from './Admin'
 
 function ScrollReset() {
-  const { pathname } = useLocation()
-  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  const { pathname, hash } = useLocation()
+  useEffect(() => {
+    const target = hash && document.getElementById(hash.slice(1))
+    if (target) target.scrollIntoView()
+    else window.scrollTo(0, 0)
+  }, [pathname, hash])
   return null
 }
 
 export default function App() {
+  if (useLocation().pathname.startsWith('/admin')) return <Admin />
   return (
     <>
       <ScrollReset />

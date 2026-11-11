@@ -25,7 +25,8 @@ button { font: inherit; cursor: pointer; }
 /* titles */
 .title { margin-bottom: 30px; }
 .title .sub { display: block; color: var(--accent); font-weight: 700; font-size: 18px; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 14px; }
-.title h2 { font-size: 60px; letter-spacing: -0.5px; }
+.title h2 { font-size: 60px; letter-spacing: -0.5px; white-space: pre-line; }
+.pre { white-space: pre-line; }
 .title.center { text-align: center; margin-bottom: 70px; }
 .title.light .sub, .title.light h2 { color: #fff; }
 
@@ -163,6 +164,7 @@ nav a:hover, nav a.active { color: var(--accent); }
 .count:hover .count-ic { background: var(--accent); color: #fff; }
 .count b { display: block; font-size: 80px; color: var(--heading); line-height: 1.1; margin-bottom: 18px; }
 .count p { font-size: 22px; line-height: 1.6; }
+@media (min-width: 1101px) { .count p { white-space: nowrap; } }
 
 /* ---------- team ---------- */
 .team { align-items: start; }

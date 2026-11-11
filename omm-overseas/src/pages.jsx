@@ -4,7 +4,7 @@ import Icon from './Icons'
 import { Title, About, Why, Counters, Team, Testimonials, Cta, Process, Contact } from './sections'
 import Home from './home'
 import { banners, countries, pages, gallery, videos } from './content'
-import { contact } from './data'
+import { contact, text } from './data'
 
 export function PageBanner({ title, crumb, bg = banners.office }) {
   return (
@@ -22,7 +22,7 @@ export function PageBanner({ title, crumb, bg = banners.office }) {
   )
 }
 
-function Sidebar() {
+function Sidebar({ enquiry }) {
   const { pathname } = useLocation()
   const links = [
     ...Object.entries(countries).map(([slug, c]) => [`/${slug}`, `Study In ${c.name}`]),
@@ -31,16 +31,19 @@ function Sidebar() {
   return (
     <aside className="side">
       <div className="side-box">
-        <h3>Our Services</h3>
+        <h3>{text.sidebar.title}</h3>
         {links.map(([to, label]) => (
           <Link key={to} to={to} className={pathname === to ? 'on' : ''}>{label}<Icon name="arrow" size={16} /></Link>
         ))}
       </div>
       <div className="side-cta">
         <Icon name="calling" size={56} />
-        <h3>Need Help? Talk To Our Expert</h3>
+        <h3>{text.sidebar.helpTitle}</h3>
         <a href={`tel:${contact.phone.replace(/\s/g, '')}`}>{contact.phone}</a>
-        <Link to="/contact" className="btn-light">Book Free Consultation</Link>
+        <div className="side-btns">
+          <Link to="/contact" className="btn-light">{text.sidebar.helpButton}</Link>
+          {enquiry && <Link to="/#enquiry" className="btn-light side-enq">{text.sidebar.enquiryButton}</Link>}
+        </div>
       </div>
     </aside>
   )
@@ -56,7 +59,7 @@ export function CountryPage({ slug }) {
   const c = countries[slug]
   return (
     <>
-      <PageBanner title={`Study In ${c.name}`} crumb="Study Visa" bg={banners.study} />
+      <PageBanner title={`Study In ${c.name}`} crumb={text.pageTitles.studyCrumb} bg={banners.study} />
       <section className="sec">
         <div className="wrap detail">
           <div className="detail-main">
@@ -71,22 +74,22 @@ export function CountryPage({ slug }) {
               {c.facts.map(([k, v]) => <div key={k}><small>{k}</small><b>{v}</b></div>)}
             </div>
 
-            <h3 className="h3">Why Study In {c.name}?</h3>
+            <h3 className="h3">{text.countryPage.whyTitle} {c.name}?</h3>
             <Ticks items={c.why} cols />
 
-            <h3 className="h3">Top Universities & Colleges</h3>
+            <h3 className="h3">{text.countryPage.universitiesTitle}</h3>
             <div className="unis">{c.universities.map((x) => <span key={x}><Icon name="globe" size={20} />{x}</span>)}</div>
 
-            <h3 className="h3">Intakes</h3>
+            <h3 className="h3">{text.countryPage.intakesTitle}</h3>
             <div className="intakes">
               {c.intakes.map(([m, d]) => <div key={m}><b>{m}</b><span>{d}</span></div>)}
             </div>
 
-            <h3 className="h3">Documents Required</h3>
+            <h3 className="h3">{text.countryPage.docsTitle}</h3>
             <Ticks items={c.docs} cols />
-            <p className="note">Fees and visa rules change often. Our counsellors will confirm the latest requirements for your profile.</p>
+            <p className="note">{text.countryPage.note}</p>
           </div>
-          <Sidebar />
+          <Sidebar enquiry />
         </div>
       </section>
       <Process />
@@ -123,7 +126,7 @@ export function InfoPage({ slug }) {
               </div>
             ))}
           </div>
-          <Sidebar />
+          <Sidebar enquiry={['IELTS', 'PTE', 'Work Visa'].includes(p.sub) || ['spouse-visa', 'mbbs-abroad'].includes(slug)} />
         </div>
       </section>
       <Cta />
@@ -139,7 +142,7 @@ export function HomePage() {
 export function AboutPage() {
   return (
     <>
-      <PageBanner title="About Us" bg={banners.office} />
+      <PageBanner title={text.pageTitles.about} bg={banners.office} />
       <About />
       <Counters />
       <Why />
@@ -155,10 +158,10 @@ export function GalleryPage() {
   const [open, setOpen] = useState(null)
   return (
     <>
-      <PageBanner title="Gallery" crumb="Testimonials" bg={banners.family} />
+      <PageBanner title={text.pageTitles.gallery} crumb={text.pageTitles.testimonialsCrumb} bg={banners.family} />
       <section className="sec">
         <div className="wrap">
-          <Title sub="Our Gallery" center>Moments Of Happy Students<br />& Successful Visas</Title>
+          <Title sub={text.gallery.sub} center>{text.gallery.title}</Title>
           <div className="gallery">
             {gallery.map((g, i) => (
               <button key={g.thumb} className="g-item" onClick={() => setOpen(i)}>
@@ -185,10 +188,10 @@ export function VideosPage() {
   const [play, setPlay] = useState(null)
   return (
     <>
-      <PageBanner title="Video Testimonials" crumb="Testimonials" bg={banners.travel} />
+      <PageBanner title={text.pageTitles.videos} crumb={text.pageTitles.testimonialsCrumb} bg={banners.travel} />
       <section className="sec">
         <div className="wrap">
-          <Title sub="Video Testimonials" center>Hear From Our<br />Successful Clients</Title>
+          <Title sub={text.videos.sub} center>{text.videos.title}</Title>
           <div className="grid3">
             {videos.map((v, i) => (
               <div key={v.name} className="video">
@@ -212,13 +215,13 @@ export function VideosPage() {
 
 export function ContactPage() {
   const info = [
-    ['phone', 'Call Us', contact.phone, `tel:${contact.phone.replace(/\s/g, '')}`],
-    ['chat', 'Email Us', contact.email, `mailto:${contact.email}`],
-    ['globe', 'Visit Us', contact.address.join(' '), null],
+    ['phone', text.contactForm.cardCall, contact.phone, `tel:${contact.phone.replace(/\s/g, '')}`],
+    ['chat', text.contactForm.cardEmail, contact.email, `mailto:${contact.email}`],
+    ['globe', text.contactForm.cardVisit, contact.address.join(' '), null],
   ]
   return (
     <>
-      <PageBanner title="Contact Us" bg={banners.office} />
+      <PageBanner title={text.pageTitles.contact} bg={banners.office} />
       <section className="sec">
         <div className="wrap grid3">
           {info.map(([ic, h, v, href]) => (
@@ -238,10 +241,10 @@ export function ContactPage() {
 export function NotFound() {
   return (
     <>
-      <PageBanner title="Page Not Found" />
+      <PageBanner title={text.pageTitles.notFound} />
       <section className="sec"><div className="wrap" style={{ textAlign: 'center' }}>
-        <h2 className="h2">404 – This page does not exist</h2>
-        <Link to="/" className="btn">Back To Home <Icon name="arrow" size={16} /></Link>
+        <h2 className="h2">{text.notFound.title}</h2>
+        <Link to="/" className="btn">{text.notFound.button} <Icon name="arrow" size={16} /></Link>
       </div></section>
     </>
   )

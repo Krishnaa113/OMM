@@ -61,6 +61,10 @@ nav > a:hover, nav > a.active, .dd-btn:hover, .dd-btn.active { color: var(--acce
 .side-cta h3 { color: #fff; font-size: 26px; margin-bottom: 14px; }
 .side-cta > a:not(.btn-light) { display: block; color: var(--accent); font-size: 24px; font-weight: 700; margin-bottom: 25px; }
 .side-cta .btn-light { padding: 18px 30px; font-size: 16px; }
+.side-btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.side-btns .btn-light { padding: 16px 20px; }
+.side-cta .side-enq { background: var(--accent); color: #fff; }
+.side-cta .side-enq:hover { background: #fff; color: var(--heading); }
 .cta-spacer { height: 110px; }
 
 /* ---------- gallery ---------- */
